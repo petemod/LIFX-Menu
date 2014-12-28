@@ -57,6 +57,13 @@
 	[self.menu addItemWithTitle:@"Turn all lights on" action:@selector(allLightsOn) keyEquivalent:@""];
 	[self.menu addItemWithTitle:@"Turn all lights off" action:@selector(allLightsOff) keyEquivalent:@""];
 	
+    //petemod added for his own use
+    // Separator
+    [self.menu addItem:[NSMenuItem separatorItem]];
+    [self.menu addItemWithTitle:@"All lights dim" action:@selector(allLightsDim) keyEquivalent:@""];
+    [self.menu addItemWithTitle:@"All lights bright" action:@selector(allLightsBright) keyEquivalent:@""];
+    
+    
 	// Separator to the section with the individual lights
 	[self.menu addItem:[NSMenuItem separatorItem]];
 	
@@ -94,6 +101,27 @@
 -(void)allLightsOff{
 	LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
 	[localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOff];
+}
+
+/**
+ * petemod added 28-12-2014
+ */
+
+-(void)allLightsDim{
+    //Make sure the lights are on
+    [self allLightsOn];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXHSBKColor *color = [LFXHSBKColor colorWithHue:100 saturation:1.0 brightness:0.2];
+    [localNetworkContext.allLightsCollection setColor:color];
+}
+
+-(void)allLightsBright{
+    //Make sure the lights are on
+    [self allLightsOn];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //This is a whitish color
+    LFXHSBKColor *color = [LFXHSBKColor colorWithHue:60 saturation:0 brightness:1];
+    [localNetworkContext.allLightsCollection setColor:color];
 }
 
 
